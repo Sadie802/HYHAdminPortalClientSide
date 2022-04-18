@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 5px 5px 5px 5px grey;
+}
+
+.loginForm input {
+  background: #f2f2f2;
+  border: 0;
+  border-radius: 5px;
+  margin: 0 0 15px;
+  padding: 15px;
+  font-size: 14px;
+}
+
+#loginBtn {
+  width: 50%;
+  margin: auto;
+  margin-top: 5px;
+  border-radius: 12px;
+  background: #297373c3;
+  color: #e6e6e6;
+}
+
+#loginBtn:hover {
+  background-color: #297373;
+}
+
+.loginMain {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100%;
+}
+
+.loginLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+}
+
+.loginTitle {
+  color: #297373;
+  margin: auto;
+}
+
+.loginFormContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#loginPhoto {
+  margin: auto;
+  margin-bottom: 20px;
+}

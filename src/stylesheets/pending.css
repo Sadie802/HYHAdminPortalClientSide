@@ -1,0 +1,78 @@
+/* ---------- Edit and View Modal styling ---------- */
+#modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(100, 100, 100, 0.9);
+}
+
+#modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: fit-content;
+  width: 70vw;
+  background-color: white;
+}
+
+#modalCloseBtn {
+  width: fit-content;
+  border: none;
+  background: transparent;
+}
+
+/* Close button on view and edit modals */
+.closeBtnContainer {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: 10px;
+}
+
+/* Centering checkbox on Edit modal */
+.checkboxContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* 'Update' button on Edit modal   */
+#formBtn {
+  font-size: 20px;
+  color: #e6e6e6;
+  letter-spacing: 3px;
+  border-radius: 100px;
+  background: #297373c3;
+  border: 2px solid #e6e6e6;
+  width: 30%;
+}
+
+#formBtn:hover {
+  background-color: #297373;
+}
+
+.btnHolder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ------^-------------^---------------^-----------*/
+
+/* ------- Pending Requests Page Styling -------- */
+.pendingHeader {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+/* View and Edit buttons on Pending page */
+.dataBtn {
+  border: none;
+  background-color: transparent;
+}
+
+/* ------^-------------^---------------^-----------*/

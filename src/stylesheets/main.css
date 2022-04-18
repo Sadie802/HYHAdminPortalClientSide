@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap');
+
+.App{
+  background: #f6f9fc;
+  height: 100vh;
+  overflow: scroll;
+}
+
+/* Request Form Styling */
+.requestForm {
+ width:50%;
+ margin:auto;
+ padding:20px;
+ background-color: white;
+ box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+}
+
+.textArea{
+  height:200px;
+}
+
+#dashTitle, #date {
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+}
+
+#dashTitle {
+  margin-top:100px;
+}
+
+
+
+
+
+.dashHeader {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#dashImg{
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+
+
+  #tableContainer {
+    width:80%;
+    margin:auto;
+
+  }
+
+ 
+ .selectInputs {
+   display: flex;
+   justify-content: space-around;
+ }
+
+ #fundedTitle {
+   text-align: center;
+ }
