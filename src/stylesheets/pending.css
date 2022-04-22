@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&display=swap');
+
 /* ---------- Edit and View Modal styling ---------- */
 #modal-background {
   position: fixed;
@@ -16,6 +18,7 @@
   height: fit-content;
   width: 70vw;
   background-color: white;
+  font-family: 'Roboto', sans-serif
 }
 
 #modalCloseBtn {
@@ -39,9 +42,9 @@
   margin-top: 20px;
 }
 
-/* 'Update' button on Edit modal   */
+/* Submit buttons on all forms  */
 #formBtn {
-  font-size: 20px;
+  font-size: fit-content;
   color: #e6e6e6;
   letter-spacing: 3px;
   border-radius: 100px;
@@ -59,14 +62,14 @@
   display: flex;
   justify-content: center;
 }
-
-/* ------^-------------^---------------^-----------*/
+/* -------------------------------------*/
 
 /* ------- Pending Requests Page Styling -------- */
 .pendingHeader {
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
+  font-family: 'Roboto', sans-serif
 }
 
 /* View and Edit buttons on Pending page */
@@ -74,5 +77,10 @@
   border: none;
   background-color: transparent;
 }
+/* ----------------------------------------*/
 
-/* ------^-------------^---------------^-----------*/
+#viewTable {
+ overflow-wrap: break-word;
+ overflow: scroll;
+  height: 80vh;
+}

@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap");
 
-.App{
+.App {
   background: #f6f9fc;
   height: 100vh;
   overflow: scroll;
@@ -8,59 +8,82 @@
 
 /* Request Form Styling */
 .requestForm {
- width:50%;
- margin:auto;
- padding:20px;
- background-color: white;
- box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+  width: 50%;
+  margin: auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif
 }
 
-.textArea{
-  height:200px;
+.textArea {
+  height: 200px;
 }
 
-#dashTitle, #date {
+.FormText {
+  margin-top:10px
+}
+/*-----------------------------*/ 
+
+/* Dashboard styling/centering */
+#dashTitle,
+#date {
   text-align: center;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 #dashTitle {
-  margin-top:100px;
+  margin-top: 80px;
 }
 
-
-
-
-
-.dashHeader {
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-#dashImg{
+#dashImg {
   position: absolute;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+/*-----------------------------*/
+
+/* Styling pending and funded tabels */
+#tableContainer {
+  width: 80%;
+  margin: auto;
+}
+/*-----------------------------------*/
+
+/* Styling State and Category input fields on forms */
+.selectInputs {
+  display: flex;
+  justify-content: space-around;
+}
+/*----------------------------------------------*/
 
 
+#fundedTitle {
+  text-align: center;
+}
 
+.fundedHeader {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  font-family: 'Roboto', sans-serif
+}
 
-
-  #tableContainer {
-    width:80%;
-    margin:auto;
-
-  }
-
- 
- .selectInputs {
-   display: flex;
-   justify-content: space-around;
- }
-
- #fundedTitle {
-   text-align: center;
- }
+/* Error message styling for pending and funding components */
+#errorMsg{
+  font-size: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 0, 0, 0.206);
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+  border: none;
+  font-family: 'Roboto', sans-serif
+}

@@ -1,78 +1,100 @@
 import React, { useEffect, useState } from "react";
 import { Form, FormGroup, Label, Input } from "reactstrap";
+import toast, { Toaster } from "react-hot-toast";
 import close from "../images/close.png";
 
-
-
 export default function Edit(props) {
-  let itemId = props.display
-  const [item, setItem] = useState(props.item);
-  const [price, setPrice] = useState(props.price);
-  const [description, setDescription] = useState(props.donationDescription);
-  const [recipientName, setRecipientName] = useState(props.recipientName);
-  const [recipientLocation, setRecipientLocation] = useState(props.recipientLocation);
-  const [recipientOrigin, setRecipientOrigin] = useState(props.recipientOrigin);
-  const [comments, setComments] = useState(props.comments);
-  const [recipientState, setRecipientState] = useState(props.state)
-  const [itemCategory, setItemCategory] = useState(props.category)
-  const [isFunded, setIsFunded] = useState(false)
+  let itemId = props.display;
+  const [item, setItem] = useState();
+  const [price, setPrice] = useState();
+  const [description, setDescription] = useState();
+  const [recipientName, setRecipientName] = useState();
+  const [recipientLocation, setRecipientLocation] = useState(
+    
+  );
+  const [comments, setComments] = useState();
+  const [recipientState, setRecipientState] = useState();
+  const [itemCategory, setItemCategory] = useState();
+  const [isFunded, setIsFunded] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  async function handleSubmit() {
-      
-    let response = await fetch(`http://localhost:8003/edit`, {
-      method: "POST",
-      body: JSON.stringify({
-        itemId: itemId,
-        itemName: item,
-        itemPrice: price,
-        donationDescription: description,
-        isFunded: isFunded,
-        recipientName: recipientName,
-        recipientUSLocation: recipientLocation,
-        recipientHomeOrigin: recipientOrigin,
-        dateCreated: new Date(),
-        comments: comments,
-        recipientState: recipientState,
-        itemCategory: itemCategory,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    await response.json();
+  function handleCheck() {
+    if (isFunded === false) {
+      setIsFunded(true);
+    } else if (isFunded === true) {
+      setIsFunded(false);
+    }
   }
 
-useEffect(() => {
-  setItem(props.item)
-  setPrice(props.price)
-  setDescription(props.donationDescription)
-  setRecipientName(props.recipientName)
-  setRecipientLocation(props.recipientLocation)
-  setRecipientOrigin(props.recipientOrigin)
-  setComments(props.comments)
-  setRecipientState(props.recipientState)
-  setItemCategory(props.itemCategory)
-}, [props.editClicked])
+  //on form submit - sending form info (states) to server to be updated
+  async function handleEditSubmit(e) {
+    e.preventDefault();
+    setFormSubmitted(true);
+    try {
+      //displaying successful notification
+      toast.success('Edit Saved Successfully')
+      let response = await fetch(`http://localhost:8003/edit`, {
+        method: "POST",
+        body: JSON.stringify({
+          itemId: itemId,
+          itemName: item,
+          itemPrice: price,
+          donationDescription: description,
+          isFunded: isFunded,
+          recipientName: recipientName,
+          recipientUSLocation: recipientLocation,
+          dateCreated: new Date(),
+          comments: comments,
+          recipientState: recipientState,
+          itemCategory: itemCategory,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      await response.json();
+    } catch (error) {
+      console.log(error, "404 - Not found");
+    }
+  }
 
-  if (/*props.selected &&*/ props.editClicked === true) {
-  let showSelectedRequest = (
-      <Form className="requestForm" onSubmit={handleSubmit}>
+  //force reloading page after 1 second if form submitted successfully
+  if (formSubmitted === true) {
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  }
+
+  //updating states to pre-fill form once edit button is clicked
+  useEffect(() => {
+    setItem(props.item);
+    setPrice(props.price);
+    setDescription(props.donationDescription);
+    setRecipientName(props.recipientName);
+    setRecipientLocation(props.recipientLocation);
+    setComments(props.comments);
+    setRecipientState(props.recipientState);
+    setItemCategory(props.itemCategory);
+  }, [props.editClicked]);
+
+  //once edit button clicked (true), show form with prefilled input fields with clicked request's info
+  if (props.editClicked === true) {
+    let showSelectedRequest = (
+      <Form className="requestForm" onSubmit={handleEditSubmit}>
+        <Toaster />
         <div className="closeBtnContainer">
-            <button id="modalCloseBtn" onClick={props.handleViewClick}>
-          <img src={close} width="25px" />
-        </button>
+          <button id="modalCloseBtn" onClick={props.handleEditClick}>
+            <img src={close} width="25px" />
+          </button>
         </div>
         <h2 id="formTitle" style={{ textAlign: "center" }}>
           Edit Request
         </h2>
-      
         <FormGroup check>
-          <div className="checkboxContainer" >
-          <Label check>
-            <Input type="checkbox" onChange={()=> setIsFunded(true)}/>{' '}
-            Funded
-          </Label>
-
+          <div className="checkboxContainer">
+            <Label check>
+              <Input type="checkbox" onChange={handleCheck} /> Funded
+            </Label>
           </div>
         </FormGroup>
 
@@ -110,10 +132,18 @@ useEffect(() => {
             value={description}
           />
         </FormGroup>
-        <div className='selectInputs'>
+        <div className="selectInputs">
           <FormGroup>
-            <Label htmlFor='stateSelect'>State</Label>
-            <Input type="select" name="select" id="stateSelect" onChange={(e) => {setRecipientState(e.target.value)}} value={recipientState}>
+            <Label htmlFor="stateSelect">State</Label>
+            <Input
+              type="select"
+              name="select"
+              id="stateSelect"
+              onChange={(e) => {
+                setRecipientState(e.target.value);
+              }}
+              value={recipientState}
+            >
               <option>Alabama</option>
               <option>Alaska</option>
               <option>Arizona</option>
@@ -166,10 +196,18 @@ useEffect(() => {
               <option>Wyoming</option>
             </Input>
           </FormGroup>
-        
+
           <FormGroup>
-            <Label htmlFor='categorySelect'>Category</Label>
-            <Input type="select" name="select" id="exampleSelect" onChange={(e) => {setItemCategory(e.target.value)}} value={itemCategory}>
+            <Label htmlFor="categorySelect">Category</Label>
+            <Input
+              type="select"
+              name="select"
+              id="exampleSelect"
+              onChange={(e) => {
+                setItemCategory(e.target.value);
+              }}
+              value={itemCategory}
+            >
               <option>Bedroom & Bathroom</option>
               <option>Footwear</option>
               <option>Clothing</option>
@@ -194,7 +232,7 @@ useEffect(() => {
           />
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="currentLocation">Recipient's Current Location</Label>
+          <Label htmlFor="currentLocation">Recipient's Location</Label>
           <Input
             name="currentLocation"
             type="text"
@@ -202,17 +240,6 @@ useEffect(() => {
               setRecipientLocation(e.target.value);
             }}
             value={recipientLocation}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label htmlFor="origin">Recipients Origin Location</Label>
-          <Input
-            name="origin"
-            type="text"
-            onChange={(e) => {
-              setRecipientOrigin(e.target.value);
-            }}
-            value={recipientOrigin}
           />
         </FormGroup>
 
@@ -229,21 +256,19 @@ useEffect(() => {
           />
         </FormGroup>
         <div className="btnHolder">
-        <button id="formBtn" type="submit" >
-          Update
-        </button>
+          <button id="formBtn" type="submit">
+            Update
+          </button>
         </div>
       </Form>
     );
+    //------------------------------------------------------------------
     return (
       <main id="modal-background" style={{ overflow: "scroll" }}>
         <section>{showSelectedRequest}</section>
       </main>
     );
   }
+  //not showing edit modal if edit button has not been clicked (false)
   return null;
 }
-
-
-
-

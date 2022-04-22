@@ -1,23 +1,24 @@
 import React from "react";
 import { Navbar, Container, Offcanvas, Nav } from "react-bootstrap";
 import Userfront from "@userfront/react";
-import user from "../images/user.png";
 import check from "../images/check.png";
 import edit from "../images/edit.png";
 import pending from "../images/pending.png";
 import home from "../images/home.png";
 import HYHTitle from "../images/HYHTitle.png";
-  Userfront.init("5nxgy66b");
+
+//logout button component from Userfront
+Userfront.init("5nxgy66b");
 
 const LogoutButton = Userfront.build({
-  toolId: "krobnr"
+  toolId: "krobnr",
 });
+//------------------------------------
+
 export default function NavBar() {
-
-
   return (
     <div>
-      <Navbar style={{ width: "fit-content" }} bg="light" expand={false}>
+      <Navbar style={{ width: "fit-content",fontFamily: 'Roboto, sans-serif'}} bg="light" expand={false}>
         <Container bsPrefix="none" fluid>
           <div className="navContainer">
             <Navbar.Brand>Menu</Navbar.Brand>
@@ -58,12 +59,10 @@ export default function NavBar() {
                 </Nav.Link>
                 {/* <LogoutButton/> */}
                 <Nav.Link>
-                  <LogoutButton />
+                  <div className="logoutBtn">
+                    <LogoutButton />
+                  </div>
                 </Nav.Link>
-                {/* <Nav.Link id="logout" onClick={() => {window.location.href = '/'}}>
-                  {" "}
-                  <img className="navImg" src={user} width="20px" /> Log Out
-                </Nav.Link> */}
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

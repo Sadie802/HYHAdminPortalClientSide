@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { Form, FormGroup, Label, Input } from "reactstrap";
+import { Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { Navigate, useLocation } from "react-router-dom";
+import Userfront from "@userfront/react";
+import toast, { Toaster } from "react-hot-toast";
 import NavBar from "./NavBar";
 import "../stylesheets/main.css";
 
@@ -9,36 +12,57 @@ export default function RequestsForm() {
   const [description, setDescription] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [recipientLocation, setRecipientLocation] = useState("");
-  const [recipientOrigin, setRecipientOrigin] = useState("");
   const [comments, setComments] = useState("");
   const [recipientState, setRecipientState] = useState("");
   const [itemCategory, setItemCategory] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  async function handleSubmit() {
-    let response = await fetch(`http://localhost:8003/`, {
-      method: "POST",
-      body: JSON.stringify({
-        itemName: item,
-        itemPrice: price,
-        donationDescription: description,
-        isFunded: false,
-        recipientName: recipientName,
-        recipientUSLocation: recipientLocation,
-        recipientHomeOrigin: recipientOrigin,
-        dateCreated: new Date(),
-        comments: comments,
-        recipientState: recipientState,
-        itemCategory: itemCategory,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
-    let data = await response.json();
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setFormSubmitted(true);
+    try {
+      //displaying successful notification
+      toast.success("Saved Successfully")
+      let response = await fetch(`http://localhost:8003/`, {
+        method: "POST",
+        body: JSON.stringify({
+          itemName: item,
+          itemPrice: price,
+          donationDescription: description,
+          isFunded: false,
+          recipientName: recipientName,
+          recipientUSLocation: recipientLocation,
+          dateCreated: new Date(),
+          comments: comments,
+          recipientState: recipientState,
+          itemCategory: itemCategory,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      await response.json();
+    } catch (error) {
+      console.log(error, "404 - Not Found");
+    }
+  }
+
+  //force reloading page after 1 second if form submitted successfully 
+  if (formSubmitted === true) {
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  }
+
+  let location = useLocation();
+  if (!Userfront.tokens.accessToken) {
+    // Redirect to the /login page
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return (
     <main>
+      <Toaster />
       <NavBar />
       {/* Form for Inputting new requests */}
       <Form className="requestForm" onSubmit={handleSubmit}>
@@ -49,6 +73,7 @@ export default function RequestsForm() {
         <FormGroup>
           <Label htmlFor="itemName">Item Name</Label>
           <Input
+            required={true}
             name="itemName"
             type="text"
             placeholder="Item name.."
@@ -60,6 +85,7 @@ export default function RequestsForm() {
         <FormGroup>
           <Label htmlFor="itemPrice">Item Price</Label>
           <Input
+            required={true}
             name="itemPrice"
             type="number"
             placeholder="$"
@@ -71,6 +97,7 @@ export default function RequestsForm() {
         <FormGroup>
           <Label htmlFor="description">Description</Label>
           <Input
+            required={true}
             name="description"
             className="textArea"
             type="textarea"
@@ -84,6 +111,7 @@ export default function RequestsForm() {
           <FormGroup>
             <Label htmlFor="stateSelect">State</Label>
             <Input
+              required={true}
               type="select"
               name="select"
               id="stateSelect"
@@ -148,6 +176,7 @@ export default function RequestsForm() {
           <FormGroup>
             <Label htmlFor="categorySelect">Category</Label>
             <Input
+              required={true}
               type="select"
               name="select"
               id="exampleSelect"
@@ -173,35 +202,36 @@ export default function RequestsForm() {
         <FormGroup>
           <Label htmlFor="recipientName">Recipient Name</Label>
           <Input
+            required={true}
             name="recipientName"
             type="text"
             placeholder="recipient's name.."
             onChange={(e) => setRecipientName(e.target.value)}
           />
+          <div className="FormText">
+            <FormText>
+              Type 'Anonymous' if recipient does not want to share their name
+            </FormText>
+          </div>
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="currentLocation">Recipient's Current Location</Label>
+          <Label htmlFor="currentLocation">Recipient's Location</Label>
           <Input
+            required={true}
             name="currentLocation"
             type="text"
-            placeholder="recipient's current location.."
+            placeholder="current location - origin location"
             onChange={(e) => {
               setRecipientLocation(e.target.value);
             }}
           />
+          <div className="FormText">
+            <FormText>
+              Type 'Anonymous' if recipient does not want to share their
+              location
+            </FormText>
+          </div>
         </FormGroup>
-        <FormGroup>
-          <Label htmlFor="origin">Recipients Origin Location</Label>
-          <Input
-            name="origin"
-            type="text"
-            placeholder="recipient's origin location.."
-            onChange={(e) => {
-              setRecipientOrigin(e.target.value);
-            }}
-          />
-        </FormGroup>
-
         <FormGroup>
           <Label htmlFor="comments">Comments</Label>
           <Input
@@ -215,17 +245,11 @@ export default function RequestsForm() {
           />
         </FormGroup>
         <div className="btnHolder">
-        <button id="formBtn" type="submit">Save & Publish</button>
+          <button id="formBtn" type="submit">
+            Save & Publish
+          </button>
         </div>
       </Form>
     </main>
   );
 }
-
-
-
-//onsubmit of form, show "successfuly added" alert
-
-//only a few of the form Input fields will be passed to front end request page.
-//but all of this data will have to hangout in another component where Eloise can maybe search by recipients name to find all info once request is funded
-//unless Eloise holds onto google doc form and searches that way?????
